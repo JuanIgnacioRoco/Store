@@ -22,4 +22,8 @@ def set_cart_id(sender, instance, *args, **kwargs):
         instance.cart_id = str(uuid.uuid4())
 
 
+def update_totals(sender, instance, action, *args, **kwargs):
+    pass
+
+
 pre_save.connect(set_cart_id, sender=Cart)

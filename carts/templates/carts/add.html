@@ -14,8 +14,12 @@
             <a href="{% url 'products:product' product.slug %}"></a>
             {{ product.title }}
         </div>
-    <div class="font-weigh-bold text-danger">
-        {{ product.price | price_format }}
-    </div>
+        <div class="font-weigh-bold text-danger">
+            {{ product.price | price_format }}
+        </div>
+        <div class="mt-2">
+            <a href="{% url 'carts:cart' %}" class="btn btn-info">Ver carrito</a>
+
+        </div>
     </div>
 {% endblock %}
