@@ -9,7 +9,7 @@ from users.models import User
 class Cart(models.Model):
     cart_id = models.CharField(max_length=100, null=False, blank=False, unique=True)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)  # Uno a muchos
-    products = models.ManyToManyField(Product)  # Muchos a muchos
+    products = models.ManyToManyField(Product, through='CartProducts')  # Muchos a muchos
     subtotal = models.DecimalField(default=0.0, max_digits=8, decimal_places=2)
     total = models.DecimalField(default=0.0, max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -30,6 +30,13 @@ class Cart(models.Model):
     def update_total(self):
         self.total = self.subtotal + (self.subtotal * decimal.Decimal(Cart.FEE))
         self.save()
+
+
+class CartProducts(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 def set_cart_id(sender, instance, *args, **kwargs):
